@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
 import java.text.NumberFormat
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +73,9 @@ fun EditNumberField(
             imeAction = action
         ),
         modifier = modifier
+
     )
+
 }
 
 @Composable
@@ -105,7 +106,7 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
     }
 
     var tipPercentageInput by remember {
-        mutableStateOf("15")
+        mutableStateOf("")
     }
 
     var roundUpTip by remember {
@@ -127,7 +128,7 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.calculate_tip),
+            text = stringResource(R.string.num_vitorias),
             modifier = Modifier
                 .padding(bottom = 16.dp)
                 .align(alignment = Alignment.Start)
@@ -141,6 +142,12 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
+        Text(
+            text = stringResource(R.string.num_derrotas),
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .align(alignment = Alignment.Start)
+        )
 
         EditNumberField(
             labelText = stringResource(R.string.tip_percentage),
@@ -151,6 +158,7 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
+
 
         RoundUpTipRow(
             checked = roundUpTip,
