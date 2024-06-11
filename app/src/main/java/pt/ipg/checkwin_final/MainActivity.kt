@@ -123,6 +123,9 @@ fun EditNumberField(modifier: Modifier = Modifier) {
     TextField(
         value = quantidadeJogos,
         onValueChange = {quantidadeJogos = it },
+        label = {Text(stringResource(R.string.JogosJogados))},
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier
     )
 }
