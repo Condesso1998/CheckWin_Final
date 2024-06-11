@@ -119,12 +119,18 @@ fun CheckWinLayout() {
                 .align(alignment = Alignment.Start)
         )
         EditNumberField(
-            label = R.string.mostraDerrota,
+            label = R.string.numeroJogos,
             value = quantidadeJogos,
             onValueChanged = { quantidadeJogos  },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
+        )
+        Text(
+                text = stringResource(R.string.InserirDerrotas),
+            modifier = Modifier
+                .padding(bottom = 16.dp, top = 40.dp)
+                .align(alignment = Alignment.Start)
         )
         EditNumberField(
             label = R.string.percentagemDerrotas,
@@ -157,12 +163,13 @@ fun EditNumberField(
     TextField(
         value = value,
         onValueChange = onValueChanged,
-        label = {Text(stringResource(R.string.JogosJogados))},
+        label = {Text(stringResource(R.string.mostraDerrota))},
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number,
             imeAction = ImeAction.Next,
         )
     )
+
 
 }

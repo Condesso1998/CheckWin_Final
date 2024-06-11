@@ -6,7 +6,8 @@
         <string name="numeroJogos">Numero de Jogos </string>
         <string name="percentagemDerrotas">Percentagem de Derrotas </string>
         <string name="InserirJogos">Insira aqui o numero de Jogos</string>
-        <string name="mostraDerrota">A sua percentagem de derrota : é \n</string>
+        <string name="mostraDerrota">A sua percentagem de derrota  é: \n</string>
+        <string name="InserirDerrotas">Insira aqui o numero de Derrotas</string>
 
     </resources>
 
