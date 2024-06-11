@@ -1,5 +1,6 @@
 package pt.ipg.checkwin_final
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -77,14 +78,51 @@ fun TipTimeLayout() {
 
 
 private fun resultado(numeroJogos: Int, numeroDerrota: Int): String? {
-    val resultado = numeroJogos / numeroDerrota
-    return NumberFormat.getCurrencyInstance().format(resultado)
+    return if (numeroDerrota != 0) {
+        val resultado = numeroJogos / numeroDerrota.toDouble()
+        String.format("%.2f", resultado)
+    } else {
+        "N/A"
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun TipTimeLayoutPreview() {
+fun CheckWinLayoutPreview() {
     CheckWin_FinalTheme {
-        TipTimeLayout()
+        CheckWinLayout()
     }
+}
+
+@Composable
+fun CheckWinLayout() {
+    Column(
+        modifier = Modifier
+            .statusBarsPadding()
+            .padding(horizontal = 40.dp)
+            .verticalScroll(rememberScrollState())
+            .safeDrawingPadding(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+//        Text(
+//            ...
+//        )
+        EditNumberField(modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth())
+        Text(
+
+        )
+//        ...
+    }
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Composable
+fun EditNumberField(modifier: Modifier = Modifier) {
+    var quantidadeJogos by remember { mutableStateOf("") }
+    TextField(
+        value = quantidadeJogos,
+        onValueChange = {quantidadeJogos = it },
+        modifier = modifier
+    )
 }
