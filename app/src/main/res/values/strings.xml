@@ -2,10 +2,11 @@
         <string name="app_name">Check Win</string>
         <string name="calculate_tip">Calculate Tip</string>
         <string name="JogosJogados">Numero de Jogos </string>
-        <string name="tip_amount">Tip Amount: %s</string>
+        <string name="tip_amount">Percentagem de Derrotas</string>
         <string name="numeroJogos">Numero de Jogos </string>
         <string name="percentagemDerrotas">Percentagem de Derrotas </string>
-            <string name="InserirJogos">Insira aqui o numero de Jogos</string>
+        <string name="InserirJogos">Insira aqui o numero de Jogos</string>
+        <string name="mostraDerrota">A sua percentagem de derrota : é \n</string>
 
     </resources>
 

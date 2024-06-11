@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -95,15 +97,18 @@ fun CheckWinLayoutPreview() {
 @Composable
 fun CheckWinLayout() {
     var quantidadeJogos by remember { mutableStateOf("") }
-
+    val numeroDerrota = quantidadeJogos.toDoubleOrNull() ?: 0.0
     val numeroJogos = quantidadeJogos.toDoubleOrNull() ?: 0.0
-    //val resultado = resultadoTotal(numeroJogos, numeroDerrota = Int[])
+    val resultado = resultadoTotal(numeroJogos, numeroDerrota.toInt())
     Column(
-        modifier = Modifier
-            .statusBarsPadding()
-            .padding(horizontal = 40.dp)
-            .verticalScroll(rememberScrollState())
-            .safeDrawingPadding(),
+//        modifier = Modifier
+//            .statusBarsPadding()
+//            .padding(horizontal = 40.dp)
+//            .verticalScroll(rememberScrollState())
+//            .safeDrawingPadding(),
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center
+        modifier = Modifier.padding(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -114,34 +119,50 @@ fun CheckWinLayout() {
                 .align(alignment = Alignment.Start)
         )
         EditNumberField(
+            label = R.string.mostraDerrota,
             value = quantidadeJogos,
-            onValueChange = { quantidadeJogos = it },
+            onValueChanged = { quantidadeJogos  },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
-//        Text(
-//            text = stringResource(R.string.tip_amount),
-//            style = MaterialTheme.typography.displaySmall
-//        )
-//        Spacer(modifier = Modifier.height(150.dp))
+        EditNumberField(
+            label = R.string.percentagemDerrotas,
+            value =quantidadeJogos ,
+            onValueChanged = { resultado  },
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()
+        )
+        Text(
+            text = stringResource(R.string.mostraDerrota),
+            style = MaterialTheme.typography.displaySmall
+        )
+
+        Spacer(modifier = Modifier.height(150.dp))
     }
 }
+
+
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun EditNumberField(
+    @StringRes label: Int,
     value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-)  {
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier) {
+
 
     TextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = onValueChanged,
         label = {Text(stringResource(R.string.JogosJogados))},
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        modifier = modifier
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next,
+        )
     )
+
 }
