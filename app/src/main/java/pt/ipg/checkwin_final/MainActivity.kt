@@ -124,7 +124,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
 
 
     Box(
-        modifier = modifier = modifier
+        modifier = modifier
             .fillMaxSize()
     )
     {
