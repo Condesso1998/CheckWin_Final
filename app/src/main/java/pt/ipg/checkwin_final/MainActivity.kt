@@ -41,6 +41,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
 import java.text.NumberFormat
+import androidx.compose.ui.graphics.Color
+//import androidx.compose.material.MaterialTheme
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +97,10 @@ fun RoundUpTipRow(
     ) {
         Text(
             text = stringResource(R.string.quantidadeVitorias),
-            modifier = Modifier.weight(1.0F)
+            color = Color.Red,
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+
         )
         Switch(
             checked = checked,
@@ -143,6 +150,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = stringResource(R.string.inserirJogos),
+                color = Color.White,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .align(alignment = Alignment.Start)
@@ -158,6 +166,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
             )
             Text(
                 text = stringResource(R.string.inserirDerrotas),
+                color = Color.White,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .align(alignment = Alignment.Start)
