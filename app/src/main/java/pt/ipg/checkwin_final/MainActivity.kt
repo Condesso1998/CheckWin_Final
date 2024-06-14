@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CheckWin_FinalTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TipTimeLayout(
+                    DerrotaLayout(
                         modifier = Modifier
                             .padding(innerPadding)
                             .fillMaxSize()
@@ -99,12 +99,12 @@ fun RoundUpTipRow(
 }
 
 @Composable
-fun TipTimeLayout(modifier: Modifier = Modifier) {
-    var amountInput by remember {
+fun DerrotaLayout(modifier: Modifier = Modifier) {
+    var quantidadeJogosInput by remember {
         mutableStateOf("")
     }
 
-    var tipPercentageInput by remember {
+    var percentagemDerrotasageInput by remember {
         mutableStateOf("15")
     }
 
@@ -112,10 +112,10 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
         mutableStateOf(false)
     }
 
-    val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tipPercent = tipPercentageInput.toDoubleOrNull() ?: 0.0
+    val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
+    val percentagemDerrotas = percentagemDerrotasageInput.toDoubleOrNull() ?: 0.0
 
-    val tip = calculateTip(amount, tipPercent, roundUpTip)
+    val derrotas = CalculaDerrotas(quantidadeJogos.toInt(), percentagemDerrotas.toInt(), roundUpTip)
 
     Column(
         modifier = modifier
@@ -127,25 +127,31 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.calculate_tip),
+            text = stringResource(R.string.inserirJogos),
             modifier = Modifier
                 .padding(bottom = 16.dp)
                 .align(alignment = Alignment.Start)
         )
 
         EditNumberField(
-            labelText = stringResource(id = R.string.bill_amount),
-            value = amountInput,
-            onValueChange = { newValue -> amountInput = newValue },
+            labelText = stringResource(id = R.string.bill_quantidadeJogos),
+            value = quantidadeJogosInput,
+            onValueChange = { newValue -> quantidadeJogosInput = newValue },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
+        Text(
+                text = stringResource(R.string.inserirDerrotas),
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .align(alignment = Alignment.Start)
+        )
 
         EditNumberField(
             labelText = stringResource(R.string.tip_percentage),
-            value = tipPercentageInput,
-            onValueChange = { newValue -> tipPercentageInput = newValue },
+            value = percentagemDerrotasageInput,
+            onValueChange = { newValue -> percentagemDerrotasageInput = newValue },
             action = ImeAction.Done,
             modifier = Modifier
                 .fillMaxWidth()
@@ -161,7 +167,7 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = stringResource(R.string.tip_amount, tip),
+            text = stringResource(R.string.quantidadeDerrotas, derrotas),
             style = MaterialTheme.typography.displaySmall
         )
     }
@@ -171,22 +177,22 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
 @Composable
 fun TipTimePreview() {
     CheckWin_FinalTheme {
-        TipTimeLayout(
+        DerrotaLayout(
             modifier = Modifier.fillMaxSize()
         )
     }
 }
 
-private fun calculateTip(
-    amount: Double,
-    tipPercent: Double = 15.0,
+private fun CalculaDerrotas(
+    quantidadeJogos: Int,
+    percentagemDerrotas: Int = 0,
     roundUpTip: Boolean = false
 ): String {
-    var tip = (tipPercent / 100) * amount
+    var derrotas = (percentagemDerrotas / 100) * quantidadeJogos
 
     if (roundUpTip) {
-        tip = kotlin.math.ceil(tip)
+        derrotas = kotlin.math.ceil(derrotas.toDouble()).toInt()
     }
 
-    return NumberFormat.getCurrencyInstance().format(tip)
+    return NumberFormat.getCurrencyInstance().format(derrotas)
 }
