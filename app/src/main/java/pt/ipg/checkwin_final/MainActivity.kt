@@ -88,7 +88,7 @@ fun RoundUpTipRow(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.round_up_tip),
+            text = stringResource(R.string.quantidadeVitorias),
             modifier = Modifier.weight(1.0F)
         )
         Switch(
@@ -105,7 +105,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
     }
 
     var percentagemDerrotasageInput by remember {
-        mutableStateOf("15")
+        mutableStateOf("0")
     }
 
     var roundUpTip by remember {
@@ -149,7 +149,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
         )
 
         EditNumberField(
-            labelText = stringResource(R.string.tip_percentage),
+            labelText = stringResource(R.string.bill_quantidadeDerrotas),
             value = percentagemDerrotasageInput,
             onValueChange = { newValue -> percentagemDerrotasageInput = newValue },
             action = ImeAction.Done,
