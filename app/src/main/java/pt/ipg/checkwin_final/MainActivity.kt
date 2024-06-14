@@ -7,7 +7,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +32,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -95,6 +99,7 @@ fun RoundUpTipRow(
             checked = checked,
             onCheckedChange = onCheckedChange
         )
+
     }
 }
 
@@ -117,59 +122,70 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
 
     val derrotas = CalculaDerrotas(quantidadeJogos.toInt(), percentagemDerrotas.toInt(), roundUpTip)
 
-    Column(
-        modifier = modifier
-            .statusBarsPadding()
-            .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState())
-            .safeDrawingPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = stringResource(R.string.inserirJogos),
-            modifier = Modifier
-                .padding(bottom = 16.dp)
-                .align(alignment = Alignment.Start)
-        )
 
-        EditNumberField(
-            labelText = stringResource(id = R.string.bill_quantidadeJogos),
-            value = quantidadeJogosInput,
-            onValueChange = { newValue -> quantidadeJogosInput = newValue },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        )
-        Text(
+    Box(
+        modifier = modifier = modifier
+            .fillMaxSize()
+    )
+    {
+        Image(painter = painterResource(id = R.drawable.fundo),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize())
+        Column(
+            modifier = modifier
+                .statusBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
+                .safeDrawingPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(R.string.inserirJogos),
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
+            )
+
+            EditNumberField(
+                labelText = stringResource(id = R.string.bill_quantidadeJogos),
+                value = quantidadeJogosInput,
+                onValueChange = { newValue -> quantidadeJogosInput = newValue },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+            Text(
                 text = stringResource(R.string.inserirDerrotas),
-            modifier = Modifier
-                .padding(bottom = 16.dp)
-                .align(alignment = Alignment.Start)
-        )
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
+            )
 
-        EditNumberField(
-            labelText = stringResource(R.string.bill_quantidadeDerrotas),
-            value = percentagemDerrotasageInput,
-            onValueChange = { newValue -> percentagemDerrotasageInput = newValue },
-            action = ImeAction.Done,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        )
+            EditNumberField(
+                labelText = stringResource(R.string.bill_quantidadeDerrotas),
+                value = percentagemDerrotasageInput,
+                onValueChange = { newValue -> percentagemDerrotasageInput = newValue },
+                action = ImeAction.Done,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
 
-        RoundUpTipRow(
-            checked = roundUpTip,
-            onCheckedChange = { newValue -> roundUpTip = newValue},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        )
+            RoundUpTipRow(
+                checked = roundUpTip,
+                onCheckedChange = { newValue -> roundUpTip = newValue },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
 
-        Text(
-            text = stringResource(R.string.quantidadeDerrotas, derrotas),
-            style = MaterialTheme.typography.displaySmall
-        )
+            Text(
+                text = stringResource(R.string.quantidadeDerrotas, derrotas),
+                style = MaterialTheme.typography.displaySmall
+            )
+        }
     }
 }
 
