@@ -1,8 +1,6 @@
 package pt.ipg.checkwin_final
 
 
-
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -42,8 +40,10 @@ import androidx.compose.ui.unit.dp
 import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
 import java.text.NumberFormat
 import androidx.compose.ui.graphics.Color
-//import androidx.compose.material.MaterialTheme
 
+
+
+import kotlin.math.ceil
 
 
 class MainActivity : ComponentActivity() {
@@ -102,6 +102,7 @@ fun RoundUpTipRow(
                 .padding(bottom = 16.dp)
 
         )
+
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange
@@ -138,7 +139,8 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
         Image(painter = painterResource(id = R.drawable.fundo),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize())
+            modifier = Modifier.fillMaxSize()
+        )
         Column(
             modifier = modifier
                 .statusBarsPadding()
@@ -212,12 +214,12 @@ private fun CalculaDerrotas(
     quantidadeJogos: Int,
     percentagemDerrotas: Int = 0,
     roundUpTip: Boolean = false
-): String {
-    var derrotas = (percentagemDerrotas / 100) * quantidadeJogos
+): Int {
+    var derrotas = (percentagemDerrotas / 100.0) * quantidadeJogos
 
     if (roundUpTip) {
-        derrotas = kotlin.math.ceil(derrotas.toDouble()).toInt()
+        derrotas = ceil(derrotas)
     }
 
-    return NumberFormat.getCurrencyInstance().format(derrotas)
+    return derrotas.toInt()
 }
