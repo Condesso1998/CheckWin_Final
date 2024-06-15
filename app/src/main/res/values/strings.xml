@@ -11,5 +11,7 @@
     <string name="inserirJogos">Insira a quantidade de jogos </string>
     <string name="quantidadeVitorias" >Dejesa calcular o numero de vitórias? </string>
     <string name="bill_quantidadeDerrotas">Quantidade de derrotas </string>
+    <string name="inserirVitorias">Insira a quantidade de Vitorias </string>
+    <string name="bill_quantidadeVitorias">Quantidade de Vitorias </string>
 
 </resources>

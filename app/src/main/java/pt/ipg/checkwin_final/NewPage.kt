@@ -49,24 +49,18 @@ import androidx.navigation.compose.composable
 import kotlin.math.ceil
 
 
-class MainActivity(navController: NavHostController, modifier: Modifier) : ComponentActivity() {
+class NewPage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
             CheckWin_FinalTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavHost(navController = navController, startDestination = "derrotaLayout") {
-                        composable("derrotaLayout") {
-
-                            MainActivity(navController= navController, modifier = Modifier.padding(innerPadding).fillMaxSize())
-                            //(navController = navController, modifier = Modifier.padding(innerPadding).fillMaxSize())
-                        }
-                        composable("newPage") {
-                            NewPage(navController = navController)
-                        }
-                    }
+                    DerrotaLayout(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize()
+                    )
                 }
             }
         }
@@ -74,7 +68,7 @@ class MainActivity(navController: NavHostController, modifier: Modifier) : Compo
 }
 
 @Composable
-fun EditNumberField(
+fun EditNumberField_Vitorias(
     labelText: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -96,7 +90,8 @@ fun EditNumberField(
 
 @Composable
 fun RoundUpTipRow(
-    navController: NavHostController,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -109,21 +104,25 @@ fun RoundUpTipRow(
             modifier = Modifier
                 .padding(bottom = 16.dp)
 
+
         )
 
-        Button(onClick = { navController.navigate("newPage") }) {
-            Text(text = "Ir para Nova Página")
+//        Switch(
+//            checked = checked,
+//            onCheckedChange = onCheckedChange
+//        )
 
     }
 }
 
 @Composable
-fun DerrotaLayout(modifier: Modifier = Modifier, navController: NavHostController) {
+fun DerrotaLayout(modifier: Modifier = Modifier) {
     var quantidadeJogosInput by remember {
         mutableStateOf("")
     }
 
-    var percentagemDerrotasageInput by remember {
+
+    var percentagemVitoriasageInput by remember {
         mutableStateOf("0")
     }
 
@@ -132,9 +131,9 @@ fun DerrotaLayout(modifier: Modifier = Modifier, navController: NavHostControlle
     }
 
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
-    val percentagemDerrotas = percentagemDerrotasageInput.toDoubleOrNull() ?: 0.0
+    val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
 
-    val derrotas = CalculaDerrotas(quantidadeJogos.toInt(), percentagemDerrotas.toInt(), roundUpTip)
+    val Vitorias = CalculaVitorias(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
 
 
     Box(
@@ -164,7 +163,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier, navController: NavHostControlle
                     .align(alignment = Alignment.Start)
             )
 
-            EditNumberField(
+            EditNumberField_Vitorias(
                 labelText = stringResource(id = R.string.bill_quantidadeJogos),
                 value = quantidadeJogosInput,
                 onValueChange = { newValue -> quantidadeJogosInput = newValue },
@@ -173,17 +172,17 @@ fun DerrotaLayout(modifier: Modifier = Modifier, navController: NavHostControlle
                     .padding(bottom = 16.dp)
             )
             Text(
-                text = stringResource(R.string.inserirDerrotas),
+                text = stringResource(R.string.inserirVitorias),
                 color = Color.White,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .align(alignment = Alignment.Start)
             )
 
-            EditNumberField(
-                labelText = stringResource(R.string.bill_quantidadeDerrotas),
-                value = percentagemDerrotasageInput,
-                onValueChange = { newValue -> percentagemDerrotasageInput = newValue },
+            EditNumberField_Vitorias(
+                labelText = stringResource(R.string.bill_quantidadeVitorias),
+                value = percentagemVitoriasageInput,
+                onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
                 action = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -191,12 +190,15 @@ fun DerrotaLayout(modifier: Modifier = Modifier, navController: NavHostControlle
             )
 
             RoundUpTipRow(
-                navController = navController,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                checked = roundUpTip,
+                onCheckedChange = { newValue -> roundUpTip = newValue },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             )
 
             Text(
-                text = stringResource(R.string.quantidadeDerrotas, derrotas),
+                text = stringResource(R.string.quantidadeVitorias, Vitorias),
                 style = MaterialTheme.typography.displaySmall
             )
         }
@@ -208,29 +210,22 @@ fun DerrotaLayout(modifier: Modifier = Modifier, navController: NavHostControlle
 fun TipTimePreview() {
     CheckWin_FinalTheme {
         DerrotaLayout(
-            modifier = Modifier.fillMaxSize(),
-            navController = navController
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
 
- fun CalculaDerrotas(
+private fun CalculaVitorias(
     quantidadeJogos: Int,
-    percentagemDerrotas: Int = 0,
+    percentagemVitorias: Int = 0,
     roundUpTip: Boolean = false
 ): Int {
-    var derrotas = (percentagemDerrotas / 100.0) * quantidadeJogos
+    var Vitorias = (percentagemVitorias / 100.0) * quantidadeJogos
 
-    if (roundUpTip) {
-        derrotas = ceil(derrotas)
-    }
+    
+            if (roundUpTip) {
+                Vitorias = ceil(Vitorias)
+            }
 
-    return derrotas.toInt()
+    return Vitorias.toInt()
 }
-    @Composable
-    fun NewPage(navController: NavHostController) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "Esta é a nova página")
-        }
-    }
-    }
