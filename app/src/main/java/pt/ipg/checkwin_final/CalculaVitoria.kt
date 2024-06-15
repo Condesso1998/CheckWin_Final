@@ -1,6 +1,7 @@
 package pt.ipg.checkwin_final
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,7 +19,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,18 +38,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
 import androidx.compose.ui.graphics.Color
-
+import androidx.compose.ui.tooling.preview.Preview
 
 
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 
 import kotlin.math.ceil
 
 
-class NewPage : ComponentActivity() {
+class NewPage: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -99,13 +96,14 @@ fun RoundUpTipRow(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.quantidadeVitorias),
-            color = Color.Red,
+            text = stringResource(R.string.mudaDerrota),
+            color = Color.Yellow,
             modifier = Modifier
                 .padding(bottom = 16.dp)
 
 
         )
+
 
 //        Switch(
 //            checked = checked,
@@ -114,7 +112,7 @@ fun RoundUpTipRow(
 
     }
 }
-
+@Preview
 @Composable
 fun DerrotaLayout(modifier: Modifier = Modifier) {
     var quantidadeJogosInput by remember {
@@ -141,7 +139,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
             .fillMaxSize()
     )
     {
-        Image(painter = painterResource(id = R.drawable.fundo),
+        Image(painter = painterResource(id = R.drawable.img),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -205,16 +203,17 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
     }
 }
 
-
 @Composable
-fun TipTimePreview() {
+fun TipTimePreviewVitorias() {
     CheckWin_FinalTheme {
         DerrotaLayout(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            navController = rememberNavController()
         )
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 private fun CalculaVitorias(
     quantidadeJogos: Int,
     percentagemVitorias: Int = 0,
@@ -222,7 +221,7 @@ private fun CalculaVitorias(
 ): Int {
     var Vitorias = (percentagemVitorias / 100.0) * quantidadeJogos
 
-    
+
             if (roundUpTip) {
                 Vitorias = ceil(Vitorias)
             }
