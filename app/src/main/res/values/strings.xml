@@ -1,3 +1,4 @@
+
 <resources>
     <string name="app_name">CheckWin_Final</string>
     <string name="calculate_tip">Calculate Tip</string>
@@ -16,3 +17,4 @@
     <string name="mudaDerrota" >Se deseja calcular as suas derrotas  clique aqui  </string>
 
 </resources>
+
