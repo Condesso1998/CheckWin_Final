@@ -1,4 +1,5 @@
 
+
 @file:Suppress("PreviewAnnotationInFunctionWithParameters")
 
 package pt.ipg.checkwin_final
@@ -10,12 +11,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+//import androidx.benchmark.perfetto.Row
 
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -83,179 +86,153 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    fun EditNumberField_Derrotas(
-        labelText: String,
-        value: String,
-        onValueChange: (String) -> Unit,
-        action: ImeAction = ImeAction.Next,
-        modifier: Modifier = Modifier
-    ) {
-        TextField(
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(text = labelText) },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number,
-                imeAction = action
-            ),
-            modifier = modifier
 
-        )
-        Spacer(modifier = Modifier.height(150.dp))
+
+
+
+}
+
+
+@Preview
+@Composable
+fun DerrotaLayout_1(modifier: Modifier = Modifier) {
+    var quantidadeJogosInput by remember {
+        mutableStateOf("")
     }
 
 
-    @Composable
-    fun RoundUpTipRowDerrotas(
-        checked: Boolean,
-        onCheckedChange: (Boolean) -> Unit,
-        modifier: Modifier = Modifier
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+    var percentagemVitoriasageInput by remember {
+        mutableStateOf("0")
+    }
+
+    var roundUpTip by remember {
+        mutableStateOf(false)
+    }
+
+    val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
+    val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
+
+    val Derrotas =
+        CalculaDerrotas(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
+
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    )
+    {
+        Image(
+            painter = painterResource(id = R.drawable.fundo),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+        Column(
             modifier = modifier
+                .statusBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
+                .safeDrawingPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(R.string.mudaDerrota),
-                color = Color.Yellow,
+                text = stringResource(R.string.inserirJogos),
+                color = Color.White,
                 modifier = Modifier
-                    .padding(bottom = 32.dp)
-
-
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
             )
 
+            EditNumberField_Vitorias(
+                labelText = stringResource(id = R.string.bill_quantidadeJogos),
+                value = quantidadeJogosInput,
+                onValueChange = { newValue -> quantidadeJogosInput = newValue },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+            Text(
+                text = stringResource(R.string.inserirVitorias),
+                color = Color.White,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
+            )
 
+            EditNumberField_Vitorias(
+                labelText = stringResource(R.string.bill_quantidadeVitorias),
+                value = percentagemVitoriasageInput,
+                onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
+                action = ImeAction.Done,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+
+            RoundUpTipRowDerrotas(
+                checked = roundUpTip,
+                onCheckedChange = { newValue -> roundUpTip = newValue },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+
+            Text(
+                text = stringResource(R.string.quantidadeDerrotas, Derrotas),
+                style = MaterialTheme.typography.displaySmall
+            )
+        }
+    }
+
+}
+
+@Composable
+fun RoundUpTipRowDerrotas(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(R.string.mudaDerrota),
+            color = Color.Yellow,
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+        )
 //        Switch(
 //            checked = checked,
 //            onCheckedChange = onCheckedChange
 //        )
-
-        }
-
     }
 }
 
-
-    @Preview
-    @Composable
-    fun DerrotaLayout_1(modifier: Modifier = Modifier) {
-        var quantidadeJogosInput by remember {
-            mutableStateOf("")
-        }
-
-
-        var percentagemVitoriasageInput by remember {
-            mutableStateOf("0")
-        }
-
-        var roundUpTip by remember {
-            mutableStateOf(false)
-        }
-
-        val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
-        val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
-
-        val Derrotas =
-            CalculaDerrotas(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
-
-
-        Box(
-            modifier = modifier
-                .fillMaxSize()
+@Composable
+fun TipTimePreviewDerrotas() {
+    CheckWin_FinalTheme {
+        DerrotaLayout(
+            modifier = Modifier.fillMaxSize(),
+            //  navController = rememberNavController()
         )
-        {
-            Image(
-                painter = painterResource(id = R.drawable.img),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-            Column(
-                modifier = modifier
-                    .statusBarsPadding()
-                    .padding(horizontal = 16.dp)
-                    .verticalScroll(rememberScrollState())
-                    .safeDrawingPadding(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.inserirJogos),
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .align(alignment = Alignment.Start)
-                )
+    }
+}
 
-                EditNumberField_Vitorias(
-                    labelText = stringResource(id = R.string.bill_quantidadeJogos),
-                    value = quantidadeJogosInput,
-                    onValueChange = { newValue -> quantidadeJogosInput = newValue },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
-                )
-                Text(
-                    text = stringResource(R.string.inserirVitorias),
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .align(alignment = Alignment.Start)
-                )
+@SuppressLint("SuspiciousIndentation")
+private fun CalculaDerrotas(
+    quantidadeJogos: Int,
+    percentagemDerrotas: Int = 0,
+    roundUpTip: Boolean = false
+): Int {
+    var Derrotas = (percentagemDerrotas / 100.0) * quantidadeJogos
 
-                EditNumberField_Vitorias(
-                    labelText = stringResource(R.string.bill_quantidadeVitorias),
-                    value = percentagemVitoriasageInput,
-                    onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
-                    action = ImeAction.Done,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
-                )
 
-                RoundUpTipRowDerrotas(
-                    checked = roundUpTip,
-                    onCheckedChange = { newValue -> roundUpTip = newValue },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
-                )
-
-                Text(
-                    text = stringResource(R.string.quantidadeDerrotas, Derrotas),
-                    style = MaterialTheme.typography.displaySmall
-                )
-            }
-        }
-
+    if (roundUpTip) {
+        Derrotas = ceil(Derrotas)
     }
 
-    @Composable
-    fun TipTimePreviewDerrotas() {
-        CheckWin_FinalTheme {
-            DerrotaLayout(
-                modifier = Modifier.fillMaxSize(),
-                //  navController = rememberNavController()
-            )
-        }
-    }
-
-    @SuppressLint("SuspiciousIndentation")
-    private fun CalculaDerrotas(
-        quantidadeJogos: Int,
-        percentagemDerrotas: Int = 0,
-        roundUpTip: Boolean = false
-    ): Int {
-        var Derrotas = (percentagemDerrotas / 100.0) * quantidadeJogos
-
-
-        if (roundUpTip) {
-            Derrotas = ceil(Derrotas)
-        }
-
-        return Derrotas.toInt()
-    }
+    return Derrotas.toInt()
 }
 
