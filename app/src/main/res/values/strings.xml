@@ -1,14 +1,20 @@
-    <resources>
-        <string name="app_name">Check Win</string>
-        <string name="calculate_tip">Calculate Tip</string>
-        <string name="JogosJogados">Numero de Jogos </string>
-        <string name="tip_amount">Percentagem de Derrotas</string>
-        <string name="numeroJogos">Numero de Jogos </string>
-        <string name="percentagemDerrotas">Percentagem de Derrotas </string>
-        <string name="InserirJogos">Insira aqui o numero de Jogos</string>
-        <string name="mostraDerrota">A sua percentagem de derrota  é: \n</string>
-        <string name="InserirDerrotas">Insira aqui o numero de Derrotas</string>
 
-    </resources>
+<resources>
+    <string name="app_name">CheckWin_Final</string>
+    <string name="calculate_tip">Calculate Tip</string>
 
+    <string name="tip_amount">Tip Amount: %s</string>
+    <string name="tip_percentage">Tip percentage</string>
+    <string name="round_up_tip">Round up tip?</string>
+    <string name="quantidadeDerrotas">A sua quantidade de derrotas é: %s</string>
+    <string name="bill_quantidadeJogos">Quantidade de Jogos </string>
+    <string name="inserirDerrotas">Insira a quantidade de derrotas </string>
+    <string name="inserirJogos">Insira a quantidade de jogos </string>
+    <string name="quantidadeVitorias" > A sua quantidade de Vitorias é: %s</string>
+    <string name="bill_quantidadeDerrotas">Quantidade de derrotas </string>
+    <string name="inserirVitorias">Insira a quantidade de Vitorias </string>
+    <string name="bill_quantidadeVitorias">Quantidade de Vitorias </string>
+    <string name="mudaDerrota" >Se deseja calcular as suas derrotas  clique aqui  </string>
+
+</resources>
 
