@@ -52,7 +52,8 @@ class NewPage: ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CheckWin_FinalTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier =
+                Modifier.fillMaxSize()) { innerPadding ->
                     DerrotaLayout(
                         modifier = Modifier
                             .padding(innerPadding)
@@ -86,7 +87,7 @@ fun EditNumberField_Vitorias(
 }
 
 @Composable
-fun RoundUpTipRow(
+fun RoundUpTipRowVitorias(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -99,7 +100,8 @@ fun RoundUpTipRow(
             text = stringResource(R.string.mudaDerrota),
             color = Color.Yellow,
             modifier = Modifier
-                .padding(bottom = 16.dp)
+                .padding(bottom = 32.dp)
+
 
 
         )
@@ -139,7 +141,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
             .fillMaxSize()
     )
     {
-        Image(painter = painterResource(id = R.drawable.img),
+        Image(painter = painterResource(id = R.drawable.fundo),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -187,7 +189,7 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
                     .padding(bottom = 16.dp)
             )
 
-            RoundUpTipRow(
+            RoundUpTipRowVitorias(
                 checked = roundUpTip,
                 onCheckedChange = { newValue -> roundUpTip = newValue },
                 modifier = Modifier
@@ -208,7 +210,7 @@ fun TipTimePreviewVitorias() {
     CheckWin_FinalTheme {
         DerrotaLayout(
             modifier = Modifier.fillMaxSize(),
-            navController = rememberNavController()
+            //navController = rememberNavController()
         )
     }
 }

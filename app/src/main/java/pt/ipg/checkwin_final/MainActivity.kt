@@ -1,6 +1,9 @@
+@file:Suppress("PreviewAnnotationInFunctionWithParameters")
+
 package pt.ipg.checkwin_final
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -54,181 +57,186 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
             CheckWin_FinalTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavHost(navController = navController, startDestination = "derrotaLayout") {
-                        composable("derrotaLayout") {
-                            DerrotaLayout(navController = navController, modifier = Modifier.padding(innerPadding).fillMaxSize())
-                        }
-                        composable("newPage") {
-                            NewPage(navController = navController)
-                        }
-                    }
+                Scaffold(
+                    modifier =
+                    Modifier.fillMaxSize()
+                ) { innerPadding ->
+                    DerrotaLayout(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize()
+                    )
                 }
             }
         }
     }
-}
 
-@Composable
-fun EditNumberField(
-    labelText: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    action: ImeAction = ImeAction.Next,
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(text = labelText) },
-        singleLine = true,
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number,
-            imeAction = action
-        ),
-        modifier = modifier
-    )
-}
-
-@Composable
-fun RoundUpTipRow(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
+    @Composable
+    fun EditNumberField_Derrotas(
+        labelText: String,
+        value: String,
+        onValueChange: (String) -> Unit,
+        action: ImeAction = ImeAction.Next,
+        modifier: Modifier = Modifier
     ) {
-        Text(
-            text = stringResource(R.string.quantidadeVitorias),
-            color = Color.Red,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        Button(onClick = { navController.navigate("newPage") }) {
-            Text(text = "Ir para Nova Página")
-        }
-    }
-}
-
-fun CalculaDerrotas(
-    quantidadeJogos: Int,
-    percentagemDerrotas: Int = 0,
-    roundUpTip: Boolean = false
-): Int {
-    var derrotas = (percentagemDerrotas / 100.0) * quantidadeJogos
-
-    if (roundUpTip) {
-        derrotas = ceil(derrotas)
-    }
-
-    return derrotas.toInt()
-}
-
-@Composable
-fun DerrotaLayout(modifier: Modifier = Modifier, navController: NavHostController) {
-    var quantidadeJogosInput by remember {
-        mutableStateOf("") }
-
-    var percentagemDerrotasInput by remember {
-        mutableStateOf("0")
-    }
-    var roundUpTip by remember {
-        mutableStateOf(false)
-    }
-
-    val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
-    val percentagemDerrotas = percentagemDerrotasInput.toDoubleOrNull() ?: 0.0
-
-    val derrotas = CalculaDerrotas(quantidadeJogos.toInt(), percentagemDerrotas.toInt(), roundUpTip)
-
-    Box(modifier = modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.fundo),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-        Column(
+        TextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = { Text(text = labelText) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = action
+            ),
             modifier = modifier
-                .statusBarsPadding()
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState())
-                .safeDrawingPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        )
+    }
+
+    @Composable
+    fun RoundUpTipRowDerrotas(
+        checked: Boolean,
+        onCheckedChange: (Boolean) -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
         ) {
             Text(
-                text = stringResource(R.string.inserirJogos),
-                color = Color.White,
+                text = stringResource(R.string.mudaDerrota),
+                color = Color.Yellow,
                 modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .align(alignment = Alignment.Start)
+                    .padding(bottom = 32.dp)
+
+
             )
 
-            EditNumberField(
-                labelText = stringResource(id = R.string.bill_quantidadeJogos),
-                value = quantidadeJogosInput,
-                onValueChange = { newValue -> quantidadeJogosInput = newValue },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
-            Text(
-                text = stringResource(R.string.inserirDerrotas),
-                color = Color.White,
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .align(alignment = Alignment.Start)
-            )
 
-            EditNumberField(
-                labelText = stringResource(R.string.bill_quantidadeDerrotas),
-                value = percentagemDerrotasInput,
-                onValueChange = { newValue -> percentagemDerrotasInput = newValue },
-                action = ImeAction.Done,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
+//        Switch(
+//            checked = checked,
+//            onCheckedChange = onCheckedChange
+//        )
 
-            RoundUpTipRow(
-                navController = navController,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
-            )
+        }
+    }
 
-            Text(
-                text = stringResource(R.string.quantidadeDerrotas, derrotas),
-                style = MaterialTheme.typography.displaySmall
+    @Preview
+    @Composable
+    fun DerrotaLayout_1(modifier: Modifier = Modifier) {
+        var quantidadeJogosInput by remember {
+            mutableStateOf("")
+        }
+
+
+        var percentagemVitoriasageInput by remember {
+            mutableStateOf("0")
+        }
+
+        var roundUpTip by remember {
+            mutableStateOf(false)
+        }
+
+        val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
+        val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
+
+        val Derrotas =
+            CalculaDerrotas(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
+
+
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+        )
+        {
+            Image(
+                painter = painterResource(id = R.drawable.img),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+            Column(
+                modifier = modifier
+                    .statusBarsPadding()
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState())
+                    .safeDrawingPadding(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.inserirJogos),
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .align(alignment = Alignment.Start)
+                )
+
+                EditNumberField_Vitorias(
+                    labelText = stringResource(id = R.string.bill_quantidadeJogos),
+                    value = quantidadeJogosInput,
+                    onValueChange = { newValue -> quantidadeJogosInput = newValue },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
+                )
+                Text(
+                    text = stringResource(R.string.inserirVitorias),
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .align(alignment = Alignment.Start)
+                )
+
+                EditNumberField_Vitorias(
+                    labelText = stringResource(R.string.bill_quantidadeVitorias),
+                    value = percentagemVitoriasageInput,
+                    onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
+                    action = ImeAction.Done,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
+                )
+
+                RoundUpTipRowDerrotas(
+                    checked = roundUpTip,
+                    onCheckedChange = { newValue -> roundUpTip = newValue },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
+                )
+
+                Text(
+                    text = stringResource(R.string.quantidadeDerrotas, Derrotas),
+                    style = MaterialTheme.typography.displaySmall
+                )
+            }
+        }
+    }
+
+    @Composable
+    fun TipTimePreviewDerrotas() {
+        CheckWin_FinalTheme {
+            DerrotaLayout(
+                modifier = Modifier.fillMaxSize(),
+                //  navController = rememberNavController()
             )
         }
     }
-}
 
-@Composable
-fun TipTimePreviewDerrota() {
-    CheckWin_FinalTheme {
-        DerrotaLayout(
-            modifier = Modifier.fillMaxSize(),
-            navController = rememberNavController()
-        )
-    }
-}
-
-@Composable
-fun NewPage(navController: NavHostController) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "Esta é a nova página")
-    }
-}
+    @SuppressLint("SuspiciousIndentation")
+    private fun CalculaDerrotas(
+        quantidadeJogos: Int,
+        percentagemDerrotas: Int = 0,
+        roundUpTip: Boolean = false
+    ): Int {
+        var Derrotas = (percentagemDerrotas / 100.0) * quantidadeJogos
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewNewPage() {
-    CheckWin_FinalTheme {
-        NewPage(navController = rememberNavController())
+        if (roundUpTip) {
+            Derrotas = ceil(Derrotas)
+        }
+
+        return Derrotas.toInt()
     }
 }
