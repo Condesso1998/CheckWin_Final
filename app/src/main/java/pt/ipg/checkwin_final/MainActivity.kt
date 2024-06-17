@@ -33,6 +33,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     modifier =
                     Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    DerrotaLayout(
+                    DerrotaLayout_1(
                         modifier = Modifier
                             .padding(innerPadding)
                             .fillMaxSize()
@@ -86,10 +87,28 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+}
 
 
-
-
+@Composable
+fun EditNumberField_Vitorias(
+    labelText: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    action: ImeAction = ImeAction.Next,
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(text = labelText) },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number,
+            imeAction = action
+        ),
+        modifier = modifier
+    )
 }
 
 
@@ -182,6 +201,12 @@ fun DerrotaLayout_1(modifier: Modifier = Modifier) {
                 text = stringResource(R.string.quantidadeDerrotas, Derrotas),
                 style = MaterialTheme.typography.displaySmall
             )
+            Text(text = "Mudar para calculo de Vitorias")
+
+//            Button(onClick = {  }) {
+//                navController.navigate("Vitorias")
+//                Text(text = "Mudar")
+//            }
         }
     }
 
@@ -203,17 +228,18 @@ fun RoundUpTipRowDerrotas(
             modifier = Modifier
                 .padding(bottom = 32.dp)
         )
-//        Switch(
-//            checked = checked,
-//            onCheckedChange = onCheckedChange
-//        )
+
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange
+        )
     }
 }
 
 @Composable
 fun TipTimePreviewDerrotas() {
     CheckWin_FinalTheme {
-        DerrotaLayout(
+        DerrotaLayout_1(
             modifier = Modifier.fillMaxSize(),
             //  navController = rememberNavController()
         )

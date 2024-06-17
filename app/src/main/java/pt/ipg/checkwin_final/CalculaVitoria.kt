@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,14 +37,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.Navigator
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 
 
 import androidx.navigation.compose.rememberNavController
 
 import kotlin.math.ceil
+import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme as CheckWin_FinalTheme1
 
 
 class NewPage: ComponentActivity() {
@@ -51,17 +55,26 @@ class NewPage: ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CheckWin_FinalTheme {
-                Scaffold(modifier =
-                Modifier.fillMaxSize()) { innerPadding ->
-                    DerrotaLayout(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .fillMaxSize()
-                    )
+
+                CheckWin_FinalTheme1 {
+                    Scaffold(modifier =
+                    Modifier.fillMaxSize()) { innerPadding ->
+                        DerrotaLayoutVitorias(
+                            modifier = Modifier
+                                .padding(innerPadding)
+                                .fillMaxSize()
+                        )
+                    }
                 }
-            }
-        }
+//            val navController = rememberNavController()
+//            NavHost(navController = navController, startDestination = "botao Aqui", builder = {
+//                composable("botao Aqui") {
+//                    MainActivity()
+//                }
+//                   }
+//            )
+
+
     }
 }
 
@@ -116,7 +129,7 @@ fun RoundUpTipRowVitorias(
 }
 @Preview
 @Composable
-fun DerrotaLayout(modifier: Modifier = Modifier) {
+fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
     var quantidadeJogosInput by remember {
         mutableStateOf("")
     }
@@ -201,14 +214,17 @@ fun DerrotaLayout(modifier: Modifier = Modifier) {
                 text = stringResource(R.string.quantidadeVitorias, Vitorias),
                 style = MaterialTheme.typography.displaySmall
             )
+            
         }
     }
 }
 
+
+
 @Composable
 fun TipTimePreviewVitorias() {
-    CheckWin_FinalTheme {
-        DerrotaLayout(
+    CheckWin_FinalTheme1 {
+        DerrotaLayoutVitorias(
             modifier = Modifier.fillMaxSize(),
             //navController = rememberNavController()
         )
@@ -229,4 +245,5 @@ private fun CalculaVitorias(
             }
 
     return Vitorias.toInt()
+}
 }
