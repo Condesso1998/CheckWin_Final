@@ -1,4 +1,9 @@
+
+
+@file:Suppress("PreviewAnnotationInFunctionWithParameters")
+
 package pt.ipg.checkwin_final
+
 
 
 import android.annotation.SuppressLint
@@ -6,13 +11,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+//import androidx.benchmark.perfetto.Row
+
 import androidx.compose.foundation.Image
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -21,7 +31,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -37,49 +50,48 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.Navigator
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 
 
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 
 import kotlin.math.ceil
-import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme as CheckWin_FinalTheme1
 
 
-class NewPage: ComponentActivity() {
+
+class CalculaDerrotas : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
         setContent {
+            CheckWin_FinalTheme {
 
-                CheckWin_FinalTheme1 {
-                    Scaffold(modifier =
-                    Modifier.fillMaxSize()) { innerPadding ->
-                        DerrotaLayoutVitorias(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxSize()
-                        )
-                    }
+                Scaffold(
+                    modifier =
+                    Modifier.fillMaxSize()
+                ) { innerPadding ->
+                    DerrotaLayoutDerrotas(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize()
+                    )
+
                 }
-//            val navController = rememberNavController()
-//            NavHost(navController = navController, startDestination = "botao Aqui", builder = {
-//                composable("botao Aqui") {
-//                    MainActivity()
-//                }
-//                   }
-//            )
-
-
+            }
+        }
     }
+
 }
 
+
 @Composable
-fun EditNumberField_Vitorias(
+fun EditNumberFieldDerrotas(
     labelText: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -99,38 +111,10 @@ fun EditNumberField_Vitorias(
     )
 }
 
-@Composable
-fun RoundUpTipRowVitorias(
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        Text(
-            text = stringResource(R.string.mudaDerrota),
-            color = Color.Yellow,
-            modifier = Modifier
-                .padding(bottom = 32.dp)
 
-
-
-        )
-
-
-
-//        Switch(
-//            checked = checked,
-//            onCheckedChange = onCheckedChange
-//        )
-
-    }
-}
 @Preview
 @Composable
-fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
+fun DerrotaLayoutDerrotas(modifier: Modifier = Modifier) {
     var quantidadeJogosInput by remember {
         mutableStateOf("")
     }
@@ -147,7 +131,8 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
     val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
 
-    val Vitorias = CalculaVitorias(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
+    val Derrotas =
+        CalculaDerrotas(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
 
 
     Box(
@@ -155,7 +140,8 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
             .fillMaxSize()
     )
     {
-        Image(painter = painterResource(id = R.drawable.img),
+        Image(
+            painter = painterResource(id = R.drawable.fundo),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -177,7 +163,7 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
                     .align(alignment = Alignment.Start)
             )
 
-            EditNumberField_Vitorias(
+            EditNumberFieldDerrotas(
                 labelText = stringResource(id = R.string.bill_quantidadeJogos),
                 value = quantidadeJogosInput,
                 onValueChange = { newValue -> quantidadeJogosInput = newValue },
@@ -193,7 +179,7 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
                     .align(alignment = Alignment.Start)
             )
 
-            EditNumberField_Vitorias(
+            EditNumberFieldDerrotas(
                 labelText = stringResource(R.string.bill_quantidadeVitorias),
                 value = percentagemVitoriasageInput,
                 onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
@@ -203,7 +189,7 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
                     .padding(bottom = 16.dp)
             )
 
-            RoundUpTipRowVitorias(
+            RoundUpTipRowDerrotas(
                 checked = roundUpTip,
                 onCheckedChange = { newValue -> roundUpTip = newValue },
                 modifier = Modifier
@@ -212,40 +198,72 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
             )
 
             Text(
-                text = stringResource(R.string.quantidadeVitorias, Vitorias),
+                text = stringResource(R.string.quantidadeDerrotas, Derrotas),
                 style = MaterialTheme.typography.displaySmall
             )
+            Text(text = "Mudar para calculo de Vitorias")
 
-            
+//            Button(onClick = {  }) {
+//                navController.navigate("Vitorias")
+//                Text(text = "Mudar")
+//            }
         }
+    }
+
+}
+
+@Composable
+fun RoundUpTipRowDerrotas(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(R.string.mudaDerrota),
+            color = Color.Yellow,
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+        )
+        Button(onClick = {  }) {
+//navController.navigate("Vitorias")
+            Text(text = "Mudar")
+
+
+        }
+//        Switch(
+//            checked = checked,
+//            onCheckedChange = onCheckedChange
+//        )
     }
 }
 
-
-
 @Composable
-fun TipTimePreviewVitorias() {
-    CheckWin_FinalTheme1 {
-        DerrotaLayoutVitorias(
+fun TipTimePreviewDerrotas() {
+    CheckWin_FinalTheme {
+        DerrotaLayoutDerrotas(
             modifier = Modifier.fillMaxSize(),
-            //navController = rememberNavController()
+            //  navController = rememberNavController()
         )
     }
 }
 
 @SuppressLint("SuspiciousIndentation")
-private fun CalculaVitorias(
+private fun CalculaDerrotas(
     quantidadeJogos: Int,
-    percentagemVitorias: Int = 0,
+    percentagemDerrotas: Int = 0,
     roundUpTip: Boolean = false
 ): Int {
-    var Vitorias = (percentagemVitorias / 100.0) * quantidadeJogos
+    var Derrotas = (percentagemDerrotas / 100.0) * quantidadeJogos
 
 
-            if (roundUpTip) {
-                Vitorias = ceil(Vitorias)
-            }
+    if (roundUpTip) {
+        Derrotas = ceil(Derrotas)
+    }
 
-    return Vitorias.toInt()
+    return Derrotas.toInt()
 }
-}
+
