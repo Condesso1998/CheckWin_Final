@@ -15,6 +15,9 @@
     <string name="inserirVitorias">Insira a quantidade de Vitorias </string>
     <string name="bill_quantidadeVitorias">Quantidade de Vitorias </string>
     <string name="mudaDerrota" >Se deseja calcular as suas derrotas  clique aqui  </string>
+    <string name="btnVitorias" > Vitorias </string>
+    <string name="btnDerrota">Derrota </string>
+    <string name="back_button"> Voltar </string>
 
 </resources>
 

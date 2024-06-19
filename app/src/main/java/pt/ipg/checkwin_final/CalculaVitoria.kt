@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.Navigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -103,10 +104,12 @@ fun EditNumberField_Vitorias(
 fun RoundUpTipRowVitorias(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
+    navControlador: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+
         modifier = modifier
     ) {
         Text(
@@ -114,18 +117,19 @@ fun RoundUpTipRowVitorias(
             color = Color.Yellow,
             modifier = Modifier
                 .padding(bottom = 32.dp)
-
-
-
         )
+        Button(onClick = {
+            navControlador.navigate("Derrotas")
+        }) {
+
+            Text(text = "Mudar Para Derrotas")
 
 
-
+        }
 //        Switch(
 //            checked = checked,
 //            onCheckedChange = onCheckedChange
 //        )
-
     }
 }
 @Preview
@@ -206,11 +210,11 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
             RoundUpTipRowVitorias(
                 checked = roundUpTip,
                 onCheckedChange = { newValue -> roundUpTip = newValue },
+                navControlador = NavHostController(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
-
             Text(
                 text = stringResource(R.string.quantidadeVitorias, Vitorias),
                 style = MaterialTheme.typography.displaySmall
@@ -228,7 +232,8 @@ fun TipTimePreviewVitorias() {
     CheckWin_FinalTheme1 {
         DerrotaLayoutVitorias(
             modifier = Modifier.fillMaxSize(),
-            //navController = rememberNavController()
+            navControlador = rememberNavController()
+
         )
     }
 }

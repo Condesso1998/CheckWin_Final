@@ -11,18 +11,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-//import androidx.benchmark.perfetto.Row
-
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -33,7 +28,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,12 +48,10 @@ import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 
 
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 
 import kotlin.math.ceil
 
@@ -90,6 +82,8 @@ class CalculaDerrotas : ComponentActivity() {
 }
 
 
+
+
 @Composable
 fun EditNumberFieldDerrotas(
     labelText: String,
@@ -98,18 +92,21 @@ fun EditNumberFieldDerrotas(
     action: ImeAction = ImeAction.Next,
     modifier: Modifier = Modifier
 ) {
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(text = labelText) },
-        singleLine = true,
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number,
-            imeAction = action
-        ),
-        modifier = modifier
-    )
-}
+
+        TextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = { Text(text = labelText) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = action
+            ),
+
+           modifier = modifier,
+
+        )
+    }
 
 
 @Preview
@@ -192,7 +189,8 @@ fun DerrotaLayoutDerrotas(modifier: Modifier = Modifier) {
             RoundUpTipRowDerrotas(
                 checked = roundUpTip,
                 onCheckedChange = { newValue -> roundUpTip = newValue },
-                modifier = Modifier
+                navController = NavController,
+               modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
@@ -212,14 +210,19 @@ fun DerrotaLayoutDerrotas(modifier: Modifier = Modifier) {
 
 }
 
+
+
+
 @Composable
 fun RoundUpTipRowDerrotas(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+
         modifier = modifier
     ) {
         Text(
@@ -228,9 +231,11 @@ fun RoundUpTipRowDerrotas(
             modifier = Modifier
                 .padding(bottom = 32.dp)
         )
-        Button(onClick = {  }) {
-//navController.navigate("Vitorias")
-            Text(text = "Mudar")
+        Button(onClick = {
+            navController.navigate("Vitorias")
+        }) {
+
+            Text(text = "Mudar Para vitorias")
 
 
         }
@@ -252,7 +257,7 @@ fun TipTimePreviewDerrotas() {
 }
 
 @SuppressLint("SuspiciousIndentation")
-private fun CalculaDerrotas(
+fun CalculaDerrotas(
     quantidadeJogos: Int,
     percentagemDerrotas: Int = 0,
     roundUpTip: Boolean = false
