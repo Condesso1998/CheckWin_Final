@@ -1,6 +1,5 @@
 package pt.ipg.checkwin_final
 
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +9,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,51 +29,38 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
-
 import androidx.navigation.compose.rememberNavController
-
+import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme
 import kotlin.math.ceil
-import pt.ipg.checkwin_final.ui.theme.CheckWin_FinalTheme as CheckWin_FinalTheme1
 
-
-class NewPage: ComponentActivity() {
+class NewPage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
-                CheckWin_FinalTheme1 {
-                    Scaffold(modifier =
-                    Modifier.fillMaxSize()) { innerPadding ->
-                        DerrotaLayoutVitorias(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxSize()
-                        )
-                    }
+            CheckWin_FinalTheme {
+                val navController = rememberNavController()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    DerrotaLayoutVitorias(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize(),
+                        navController = navController
+                    )
                 }
-//            val navController = rememberNavController()
-//            NavHost(navController = navController, startDestination = "botao Aqui", builder = {
-//                composable("botao Aqui") {
-//                    MainActivity()
-//                }
-//                   }
-//            )
-
-
+            }
+        }
     }
 }
 
@@ -104,62 +89,51 @@ fun EditNumberField_Vitorias(
 fun RoundUpTipRowVitorias(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    navControlador: NavHostController,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-
         modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.mudaDerrota),
             color = Color.Yellow,
-            modifier = Modifier
-                .padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 32.dp)
         )
         Button(onClick = {
-            navControlador.navigate("Derrotas")
+            navController.navigate("Derrotas")
         }) {
-
             Text(text = "Mudar Para Derrotas")
-
-
         }
-//        Switch(
-//            checked = checked,
-//            onCheckedChange = onCheckedChange
-//        )
+        // Uncomment if Switch is needed
+        // Switch(
+        //    checked = checked,
+        //    onCheckedChange = onCheckedChange
+        // )
     }
 }
+
 @Preview
 @Composable
-fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
-    var quantidadeJogosInput by remember {
-        mutableStateOf("")
-    }
-
-
-    var percentagemVitoriasageInput by remember {
-        mutableStateOf("0")
-    }
-
-    var roundUpTip by remember {
-        mutableStateOf(false)
-    }
+fun DerrotaLayoutVitorias(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
+) {
+    var quantidadeJogosInput by remember { mutableStateOf("") }
+    var percentagemVitoriasageInput by remember { mutableStateOf("0") }
+    var roundUpTip by remember { mutableStateOf(false) }
 
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
     val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
 
-    val Vitorias = CalculaVitorias(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
-
+    val vitorias = CalculaVitorias(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-    )
-    {
-        Image(painter = painterResource(id = R.drawable.img),
+        modifier = modifier.fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -210,30 +184,26 @@ fun DerrotaLayoutVitorias(modifier: Modifier = Modifier) {
             RoundUpTipRowVitorias(
                 checked = roundUpTip,
                 onCheckedChange = { newValue -> roundUpTip = newValue },
-                navControlador = NavHostController(),
+                navController = navController,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
+
             Text(
-                text = stringResource(R.string.quantidadeVitorias, Vitorias),
+                text = stringResource(R.string.quantidadeVitorias, vitorias),
                 style = MaterialTheme.typography.displaySmall
             )
-
-            
         }
     }
 }
 
-
-
 @Composable
 fun TipTimePreviewVitorias() {
-    CheckWin_FinalTheme1 {
+    CheckWin_FinalTheme {
         DerrotaLayoutVitorias(
             modifier = Modifier.fillMaxSize(),
-            navControlador = rememberNavController()
-
+            navController = rememberNavController()
         )
     }
 }
@@ -244,13 +214,11 @@ private fun CalculaVitorias(
     percentagemVitorias: Int = 0,
     roundUpTip: Boolean = false
 ): Int {
-    var Vitorias = (percentagemVitorias / 100.0) * quantidadeJogos
+    var vitorias = (percentagemVitorias / 100.0) * quantidadeJogos
 
+    if (roundUpTip) {
+        vitorias = ceil(vitorias)
+    }
 
-            if (roundUpTip) {
-                Vitorias = ceil(Vitorias)
-            }
-
-    return Vitorias.toInt()
-}
+    return vitorias.toInt()
 }
