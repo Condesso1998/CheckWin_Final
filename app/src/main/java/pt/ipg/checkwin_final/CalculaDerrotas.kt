@@ -168,17 +168,17 @@ fun DerrotaLayoutDerrotas(modifier: Modifier = Modifier) {
                     .padding(bottom = 16.dp)
             )
 
-            Text(
-                text = stringResource(R.string.quantidadeDerrotas, derrotas),
-                style = MaterialTheme.typography.displaySmall
-            )
-            Text(text = "Mudar para calculo de Vitorias")
+//            Text(
+//                text = stringResource(R.string.quantidadeDerrotas, derrotas),
+//                style = MaterialTheme.typography.displaySmall
+//            )
+//            Text(text = "Mudar para calculo de Vitorias")
 
-            Button(onClick = {  }) {
-                // navigate to Vitorias
-                // navController.navigate("Vitorias")
-                Text(text = "Mudar")
-            }
+//            Button(onClick = {  }) {
+//                // navigate to Vitorias
+//                // navController.navigate("Vitorias")
+//                Text(text = "Mudar")
+//            }
         }
     }
 }
@@ -194,20 +194,12 @@ fun RoundUpTipRowDerrotas(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(
-            text = stringResource(R.string.mudaDerrota),
-            color = Color.Yellow,
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-        )
-        Button(onClick = {
-            navController.navigate("Vitorias")
-        }) {
-            Text(text = "Mudar Para vitorias")
+
+
         }
 
     }
-}
+
 
 @SuppressLint("SuspiciousIndentation")
 fun CalculaDerrotas(

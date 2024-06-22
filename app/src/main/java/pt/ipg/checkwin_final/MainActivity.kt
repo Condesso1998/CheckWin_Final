@@ -102,13 +102,20 @@ fun Inicio(navigateToVitorias: () -> Unit, navigateToDerrotas: () -> Unit, modif
 @Composable
 fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifier) {
     var quantidadeJogosInput by remember { mutableStateOf("") }
-    var percentagemVitoriasageInput by remember { mutableStateOf("0") }
+    var percentagemDerrotasInput by remember { mutableStateOf("0") }
     var roundUpTip by remember { mutableStateOf(false) }
 
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
-    val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
+    val quantidadeDerrotas = percentagemDerrotasInput.toDoubleOrNull() ?: 0.0
 
-    val derrotas = CalculaDerrotas(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
+
+
+    val percentagemDerrotas = if (quantidadeJogos > 0) {
+        quantidadeDerrotas / quantidadeJogos * 100
+    } else {
+        0.0
+    }
+
 
     Box(modifier = modifier.fillMaxSize()) {
         Image(
@@ -152,8 +159,8 @@ fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifie
 
             EditNumberFieldDerrotas(
                 labelText = "Quantidade de Derrotas",
-                value = percentagemVitoriasageInput,
-                onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
+                value = percentagemDerrotasInput,
+                onValueChange = { newValue -> percentagemDerrotasInput = newValue },
                 action = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -170,8 +177,12 @@ fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifie
             )
 
             Text(
-                text = "Quantidade de Derrotas: $derrotas",
-                style = MaterialTheme.typography.displaySmall
+                text = "Percentagem de Derrotas: %.2f%%".format(percentagemDerrotas),
+                style = MaterialTheme.typography.displaySmall,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
             )
 
         }
