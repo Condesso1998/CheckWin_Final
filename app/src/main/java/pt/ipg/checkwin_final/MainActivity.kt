@@ -1,4 +1,3 @@
-
 package pt.ipg.checkwin_final
 
 import android.os.Bundle
@@ -6,22 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,54 +53,27 @@ fun MyApp(modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = "Calcula Derrotas") {
         composable("Calcula Derrotas") {
             CalculaDerrotas(
-                navigateToDerrotas = { navController.navigate("Calcula Derrotas") }
+                navigateToDerrotas = { navController.navigate("Calcula Vitorias") }
             )
         }
         composable("Calcula Vitorias") {
-            NewPage()
+            NewPage(
+                navigateToVitorias = { navController.navigate("Calcula Derrotas") }
+            )
         }
     }
 }
 
-@Composable
-fun MainScreen(
-    navigateToDerrotas: () -> Unit,
-    navigateToVitorias: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-//    Column(
-//        modifier = modifier.fillMaxSize(),
-//        verticalArrangement = Arrangement.Center
-//    ) {
-//        Button(onClick = navigateToDerrotas) {
-//            Text("Calcular derrotas")
-//        }
-//        Spacer(modifier = Modifier.height(16.dp))
-//        Button(onClick = navigateToVitorias) {
-//            Text("Calcular vitórias")
-//        }
-//    }
-//}
+fun CalculaDerrotas(navigateToDerrotas: () -> Unit,modifier: Modifier = Modifier) {
+
 }
 
 @Composable
-fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier=Modifier) {
-    // Placeholder implementation
-    //  Text("Calcula Derrotas Screen")
-
-//
-//@Composable
-//fun NewPage() {
-//    // Placeholder implementation
-//    Text("Calcula Vitorias Screen")
-//}
-//
-
+fun CalculaVitorias(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
     ) {
-
         Column(
             modifier = modifier
                 .statusBarsPadding()
@@ -131,24 +91,105 @@ fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier=Modifier)
                     .padding(bottom = 16.dp)
                     .align(alignment = Alignment.Start)
             )
-
-
-
-
-
-
-
-
-            Button(onClick = { }) {
-                // navigate to Vitorias
-                // navController.navigate("Vitorias")
+            Button(onClick = { navigateToVitorias() }) {
                 Text(text = "Mudar para Vitorias")
             }
-            Button(onClick = { }) {
-                // navigate to Vitorias
-                // navController.navigate("Vitorias")
-                Text(text = "Mudar para Derrotas ")
-            }
+
         }
     }
+}
+
+@Composable
+fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
+
+    var quantidadeJogosInput by remember {
+        mutableStateOf("")
+    }
+
+    var percentagemVitoriasageInput by remember {
+        mutableStateOf("0")
+    }
+
+    var roundUpTip by remember {
+        mutableStateOf(false)
+    }
+
+    val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
+    val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
+
+    val derrotas = CalculaDerrotas(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.fundo),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+        Column(
+            modifier = modifier
+                .statusBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
+                .safeDrawingPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(R.string.inserirJogos),
+                color = Color.White,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
+            )
+
+            EditNumberFieldDerrotas(
+                labelText = stringResource(id = R.string.bill_quantidadeJogos),
+                value = quantidadeJogosInput,
+                onValueChange = { newValue -> quantidadeJogosInput = newValue },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+            Text(
+                text = stringResource(R.string.inserirVitorias),
+                color = Color.White,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
+            )
+
+            EditNumberFieldDerrotas(
+                labelText = stringResource(R.string.bill_quantidadeVitorias),
+                value = percentagemVitoriasageInput,
+                onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
+                action = ImeAction.Done,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+
+            RoundUpTipRowDerrotas(
+                checked = roundUpTip,
+                onCheckedChange = { newValue -> roundUpTip = newValue },
+                navController = rememberNavController(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+
+            Text(
+                text = stringResource(R.string.quantidadeDerrotas, derrotas),
+                style = MaterialTheme.typography.displaySmall
+            )
+
+
+
+        }
+    }
+
+
 }

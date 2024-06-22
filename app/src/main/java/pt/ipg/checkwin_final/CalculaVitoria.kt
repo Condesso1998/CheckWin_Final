@@ -106,11 +106,8 @@ fun RoundUpTipRowVitorias(
         }) {
             Text(text = "Mudar Para Derrotas")
         }
-        // Uncomment if Switch is needed
-        // Switch(
-        //    checked = checked,
-        //    onCheckedChange = onCheckedChange
-        // )
+
+
     }
 }
 

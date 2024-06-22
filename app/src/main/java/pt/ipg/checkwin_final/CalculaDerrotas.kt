@@ -205,10 +205,7 @@ fun RoundUpTipRowDerrotas(
         }) {
             Text(text = "Mudar Para vitorias")
         }
-        Switch(
-            checked = checked,
-            onCheckedChange = onCheckedChange
-        )
+
     }
 }
 
