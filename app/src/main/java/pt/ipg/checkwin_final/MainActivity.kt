@@ -200,7 +200,8 @@ fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
     val quantidadeVitorias = quantidadeVitoriasInput.toDoubleOrNull() ?: 0.0
 
-    // Calculate percentage of victories
+    // esta assim porque se declar a varivel primeiro e depois fazier a conta no if da crash
+
     val percentagemVitorias = if (quantidadeJogos > 0) {
         quantidadeVitorias / quantidadeJogos * 100
     } else {
@@ -257,6 +258,29 @@ fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
                     .padding(bottom = 16.dp)
                     .align(alignment = Alignment.Start)
             )
+
+            if (percentagemVitorias > 80) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_1),
+                    contentDescription = "Success",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .size(128.dp)
+                )
+                Text(text = "Parabéns, pelo sucesso")
+            }
+            if (percentagemVitorias < 30) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_2),
+                    contentDescription = "Success",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .size(128.dp)
+                )
+                Text(text = "Tens de Treinar mais")
+            }
         }
     }
 }
