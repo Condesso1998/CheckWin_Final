@@ -50,17 +50,20 @@ fun MyApp(modifier: Modifier = Modifier) {
         composable("Inicio") {
             Inicio(
                 navigateToDerrotas = { navController.navigate("Calcula Derrotas") },
-                navigateToVitorias = { navController.navigate("Calcula Vitorias") }
+                navigateToVitorias = { navController.navigate("Calcula Vitorias") },
+
             )
         }
         composable("Calcula Derrotas") {
             CalculaDerrotas(
-                navigateToDerrotas = { navController.navigate("Calcula Vitorias") }
+                navigateToVitorias = { navController.navigate("Calcula Vitorias") },
+                navigateToInicio = { navController.navigate("Inicio") }
             )
         }
         composable("Calcula Vitorias") {
             NewPage(
-                navigateToVitorias = { navController.navigate("Calcula Derrotas") }
+                navigateToDerrotas = { navController.navigate("Calcula Derrotas") },
+                navigateToInicio = { navController.navigate("Inicio") }
             )
         }
     }
@@ -100,7 +103,7 @@ fun Inicio(navigateToVitorias: () -> Unit, navigateToDerrotas: () -> Unit, modif
 
 
 @Composable
-fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifier) {
+fun CalculaDerrotas(navigateToInicio: () -> Unit,navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
     var quantidadeJogosInput by remember { mutableStateOf("") }
     var percentagemDerrotasInput by remember { mutableStateOf("0") }
     var roundUpTip by remember { mutableStateOf(false) }
@@ -185,12 +188,24 @@ fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifie
                     .align(alignment = Alignment.Start)
             )
 
+// IF
+
+
+            Button(
+                onClick = navigateToInicio,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "Voltar")
+            }
+
         }
     }
 }
 
 @Composable
-fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
+fun NewPage(navigateToInicio: () -> Unit,navigateToDerrotas: () -> Unit, modifier: Modifier = Modifier) {
     // State variables for user input
     var quantidadeJogosInput by remember { mutableStateOf("") }
     var quantidadeVitoriasInput by remember { mutableStateOf("") }
@@ -280,6 +295,14 @@ fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
                         .size(128.dp)
                 )
                 Text(text = "Tens de Treinar mais")
+            }
+            Button(
+                onClick = navigateToInicio,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "Voltar")
             }
         }
     }
