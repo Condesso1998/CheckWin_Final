@@ -69,8 +69,7 @@ fun MyApp(modifier: Modifier = Modifier) {
 @Composable
 fun Inicio(navigateToVitorias: () -> Unit, navigateToDerrotas: () -> Unit, modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         Column(
             modifier = modifier
@@ -98,6 +97,7 @@ fun Inicio(navigateToVitorias: () -> Unit, navigateToDerrotas: () -> Unit, modif
         }
     }
 }
+
 
 @Composable
 fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifier) {
@@ -143,7 +143,7 @@ fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifie
                     .padding(bottom = 16.dp)
             )
             Text(
-                text = "Insira a Percentagem de Vitórias",
+                text = "Insira a Percentagem de Derrotas",
                 color = Color.White,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
@@ -151,7 +151,7 @@ fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifie
             )
 
             EditNumberFieldDerrotas(
-                labelText = "Quantidade de Vitórias",
+                labelText = "Quantidade de Derrotas",
                 value = percentagemVitoriasageInput,
                 onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
                 action = ImeAction.Done,
@@ -173,27 +173,32 @@ fun CalculaDerrotas(navigateToDerrotas: () -> Unit, modifier: Modifier = Modifie
                 text = "Quantidade de Derrotas: $derrotas",
                 style = MaterialTheme.typography.displaySmall
             )
-            Button(onClick = { navigateToDerrotas() }) {
-                Text(text = "Mudar para Vitorias")
-            }
+
         }
     }
 }
 
 @Composable
 fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
+    // State variables for user input
     var quantidadeJogosInput by remember { mutableStateOf("") }
-    var percentagemVitoriasageInput by remember { mutableStateOf("0") }
+    var quantidadeVitoriasInput by remember { mutableStateOf("") }
     var roundUpTip by remember { mutableStateOf(false) }
 
+    // Convert inputs to Double or use 0.0 as default
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
-    val percentagemVitorias = percentagemVitoriasageInput.toDoubleOrNull() ?: 0.0
+    val quantidadeVitorias = quantidadeVitoriasInput.toDoubleOrNull() ?: 0.0
 
-    val derrotas = CalculaDerrotas(quantidadeJogos.toInt(), percentagemVitorias.toInt(), roundUpTip)
+    // Calculate percentage of victories
+    val percentagemVitorias = if (quantidadeJogos > 0) {
+        quantidadeVitorias / quantidadeJogos * 100
+    } else {
+        0.0
+    }
 
     Box(modifier = modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = R.drawable.fundo),
+            painter = painterResource(id = R.drawable.img),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -208,7 +213,7 @@ fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Insira os Jogos",
+                text = "Insira os Jogos e Vitórias",
                 color = Color.White,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
@@ -223,41 +228,26 @@ fun NewPage(navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
-            Text(
-                text = "Insira a Percentagem de Vitórias",
-                color = Color.White,
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .align(alignment = Alignment.Start)
-            )
-
             EditNumberFieldDerrotas(
                 labelText = "Quantidade de Vitórias",
-                value = percentagemVitoriasageInput,
-                onValueChange = { newValue -> percentagemVitoriasageInput = newValue },
+                value = quantidadeVitoriasInput,
+                onValueChange = { newValue -> quantidadeVitoriasInput = newValue },
                 action = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
 
-            RoundUpTipRowDerrotas(
-                checked = roundUpTip,
-                onCheckedChange = { newValue -> roundUpTip = newValue },
-                navController = rememberNavController(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
-
             Text(
-                text = "Quantidade de Derrotas: $derrotas",
-                style = MaterialTheme.typography.displaySmall
+                text = "Percentagem de Vitórias: %.2f%%".format(percentagemVitorias),
+                style = MaterialTheme.typography.displaySmall,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
             )
-            Button(onClick = { navigateToVitorias() }) {
-                Text(text = "Mudar para Derrotas")
-            }
         }
     }
 }
+
 
