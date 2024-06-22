@@ -18,6 +18,7 @@
     <string name="btnVitorias" > Vitorias </string>
     <string name="btnDerrota">Derrota </string>
     <string name="back_button"> Voltar </string>
+    <string name="Bottoes" > Clique no botao que deseja calcular  </string>
 
 </resources>
 
