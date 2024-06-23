@@ -104,9 +104,10 @@ fun Inicio(navigateToVitorias: () -> Unit, navigateToDerrotas: () -> Unit, modif
 
 @Composable
 fun CalculaDerrotas(navigateToInicio: () -> Unit,navigateToVitorias: () -> Unit, modifier: Modifier = Modifier) {
+
     var quantidadeJogosInput by remember { mutableStateOf("") }
     var percentagemDerrotasInput by remember { mutableStateOf("0") }
-    var roundUpTip by remember { mutableStateOf(false) }
+
 
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
     val quantidadeDerrotas = percentagemDerrotasInput.toDoubleOrNull() ?: 0.0
@@ -170,26 +171,46 @@ fun CalculaDerrotas(navigateToInicio: () -> Unit,navigateToVitorias: () -> Unit,
                     .padding(bottom = 16.dp)
             )
 
-            RoundUpTipRowDerrotas(
-                checked = roundUpTip,
-                onCheckedChange = { newValue -> roundUpTip = newValue },
-                navController = rememberNavController(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
+            if (quantidadeDerrotas <0 || quantidadeDerrotas > quantidadeJogos){
+                 Text(text = "Insira um numero valido",
+                     style = MaterialTheme.typography.displaySmall,
+                     color = Color.Red,
+                     modifier = Modifier
+                         .padding(bottom = 50.dp)
+                         .align(alignment = Alignment.Start)
+                 )
+             }else{
+                Text(
+                    text = "Percentagem de Derrotas: %.2f%%".format(percentagemDerrotas),
+                    style = MaterialTheme.typography.displaySmall,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .align(alignment = Alignment.Start)
+                )
+                if (percentagemDerrotas > 80 && percentagemDerrotas < 100) {
 
-            Text(
-                text = "Percentagem de Derrotas: %.2f%%".format(percentagemDerrotas),
-                style = MaterialTheme.typography.displaySmall,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .align(alignment = Alignment.Start)
-            )
-
-// IF
-
+                Image(
+                    painter = painterResource(id = R.drawable.img_2),
+                    contentDescription = "Success",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .size(128.dp)
+                )
+                Text(text = "Tens de Treinar mais")
+            }
+            if (percentagemDerrotas>0 && percentagemDerrotas < 30) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_1),
+                    contentDescription = "Success",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .size(128.dp)
+                )
+                Text(text = "Parabéns, pelo sucesso")
+            }
 
             Button(
                 onClick = navigateToInicio,
@@ -203,15 +224,17 @@ fun CalculaDerrotas(navigateToInicio: () -> Unit,navigateToVitorias: () -> Unit,
         }
     }
 }
+}
 
 @Composable
 fun NewPage(navigateToInicio: () -> Unit,navigateToDerrotas: () -> Unit, modifier: Modifier = Modifier) {
-    // State variables for user input
+
+
     var quantidadeJogosInput by remember { mutableStateOf("") }
     var quantidadeVitoriasInput by remember { mutableStateOf("") }
-    var roundUpTip by remember { mutableStateOf(false) }
 
-    // Convert inputs to Double or use 0.0 as default
+
+
     val quantidadeJogos = quantidadeJogosInput.toDoubleOrNull() ?: 0.0
     val quantidadeVitorias = quantidadeVitoriasInput.toDoubleOrNull() ?: 0.0
 
@@ -255,6 +278,14 @@ fun NewPage(navigateToInicio: () -> Unit,navigateToDerrotas: () -> Unit, modifie
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
             )
+
+            Text(
+                text = "Insira o numero total de Vitórias",
+                color = Color.White,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
+            )
             EditNumberFieldDerrotas(
                 labelText = "Quantidade de Vitórias",
                 value = quantidadeVitoriasInput,
@@ -265,44 +296,56 @@ fun NewPage(navigateToInicio: () -> Unit,navigateToDerrotas: () -> Unit, modifie
                     .padding(bottom = 16.dp)
             )
 
-            Text(
-                text = "Percentagem de Vitórias: %.2f%%".format(percentagemVitorias),
-                style = MaterialTheme.typography.displaySmall,
-                color = Color.White,
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .align(alignment = Alignment.Start)
-            )
 
-            if (percentagemVitorias > 80) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_1),
-                    contentDescription = "Success",
-                    contentScale = ContentScale.Fit,
+            if (quantidadeVitorias < 0 || quantidadeVitorias > quantidadeJogos) {
+
+                    Text(text = "Insira um numero valido",
+                        style = MaterialTheme.typography.displaySmall,
+                        color = Color.Red,
+                        modifier = Modifier
+                            .padding(bottom = 50.dp)
+                            .align(alignment = Alignment.Start)
+                    )
+            } else {
+
+                Text(
+                    text = "Percentagem de Vitórias: %.2f%%".format(percentagemVitorias),
+                    style = MaterialTheme.typography.displaySmall,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .align(alignment = Alignment.Start)
+                )
+                if (percentagemVitorias > 80 && percentagemVitorias < 100) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_1),
+                        contentDescription = "Success",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .size(128.dp)
+                    )
+                    Text(text = "Parabéns, pelo sucesso")
+                }
+                if (percentagemVitorias > 0 && percentagemVitorias < 30) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_2),
+                        contentDescription = "Success",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .size(128.dp)
+                    )
+                    Text(text = "Tens de Treinar mais")
+                }
+                Button(
+                    onClick = navigateToInicio,
                     modifier = Modifier
                         .padding(top = 16.dp)
-                        .size(128.dp)
-                )
-                Text(text = "Parabéns, pelo sucesso")
-            }
-            if (percentagemVitorias < 30) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_2),
-                    contentDescription = "Success",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .size(128.dp)
-                )
-                Text(text = "Tens de Treinar mais")
-            }
-            Button(
-                onClick = navigateToInicio,
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                Text(text = "Voltar")
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Text(text = "Voltar")
+                }
             }
         }
     }
