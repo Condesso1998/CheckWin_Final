@@ -72,7 +72,7 @@ fun MyApp(modifier: Modifier = Modifier) {
 @Composable
 fun Inicio(navigateToVitorias: () -> Unit, navigateToDerrotas: () -> Unit, modifier: Modifier = Modifier) {
     Box(
-       // modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         Column(
             modifier = modifier
@@ -83,13 +83,22 @@ fun Inicio(navigateToVitorias: () -> Unit, navigateToDerrotas: () -> Unit, modif
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.img_3),
+                contentDescription = "Success",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .size(128.dp)
+            )
             Text(
                 text = "Escolha uma opção",
                 style = MaterialTheme.typography.displaySmall,
-                color = Color.White,
+                color = Color.Blue,
                 modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .align(alignment = Alignment.Start)
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.CenterHorizontally)
+
             )
             Button(onClick = navigateToDerrotas) {
                 Text(text = "Mudar para Derrotas")
@@ -200,7 +209,7 @@ fun CalculaDerrotas(navigateToInicio: () -> Unit,navigateToVitorias: () -> Unit,
                 )
                 Text(text = "Tens de Treinar mais")
             }
-            if (percentagemDerrotas>0 && percentagemDerrotas <= 50) {
+            if (percentagemDerrotas>0 && percentagemDerrotas < 50) {
                 Image(
                     painter = painterResource(id = R.drawable.img_1),
                     contentDescription = "Success",
@@ -327,7 +336,7 @@ fun NewPage(navigateToInicio: () -> Unit,navigateToDerrotas: () -> Unit, modifie
                     )
                     Text(text = "Parabéns, pelo sucesso")
                 }
-                if (percentagemVitorias > 0 && percentagemVitorias < 50) {
+                if (percentagemVitorias > 0 && percentagemVitorias <= 50) {
                     Image(
                         painter = painterResource(id = R.drawable.img_2),
                         contentDescription = "Success",
